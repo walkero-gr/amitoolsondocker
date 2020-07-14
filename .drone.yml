@@ -3,14 +3,14 @@ kind: pipeline
 name: build-image
 
 steps:
-  - name: build-base-image-latest
+  - name: build-image-latest
     image: plugins/docker
     settings:
       repo: walkero/amitoolsondocker
       tags:
         - "latest"
-      cache_from:
-        - walkero/amitoolsondocker:latest
+      # cache_from:
+      #   - walkero/amitoolsondocker:latest
       dockerfile: base/Dockerfile
       username:
         from_secret: DOCKERHUB_USERNAME
