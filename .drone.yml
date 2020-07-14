@@ -1,0 +1,50 @@
+---
+kind: pipeline
+name: build-image
+
+steps:
+  - name: build-base-image-latest
+    image: plugins/docker
+    settings:
+      repo: walkero/amitoolsondocker
+      tags:
+        - "latest"
+      cache_from:
+        - walkero/amitoolsondocker:latest
+      dockerfile: base/Dockerfile
+      username:
+        from_secret: DOCKERHUB_USERNAME
+      password:
+        from_secret: DOCKERHUB_PASSWORD
+
+trigger:
+  branch:
+    include:
+    - master
+  event:
+    include:
+    - push
+
+---
+kind: pipeline
+name: build-image-from-tag
+
+steps:
+  - name: build-image-from-tag
+    image: plugins/docker
+    settings:
+      repo: walkero/amitoolsondocker
+      tags:
+        - ${DRONE_TAG/\//-}
+      cache_from:
+        - walkero/amitoolsondocker:latest
+      dockerfile: base/Dockerfile
+      username:
+        from_secret: DOCKERHUB_USERNAME
+      password:
+        from_secret: DOCKERHUB_PASSWORD
+
+trigger:
+  event:
+    include:
+    - tag
