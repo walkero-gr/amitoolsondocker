@@ -9,8 +9,8 @@ steps:
       repo: walkero/amitoolsondocker
       tags:
         - "latest"
-      # cache_from:
-      #   - walkero/amitoolsondocker:latest
+      cache_from:
+        - walkero/amitoolsondocker:latest
       dockerfile: Dockerfile
       username:
         from_secret: DOCKERHUB_USERNAME
